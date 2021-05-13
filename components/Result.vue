@@ -1,10 +1,11 @@
 <template>
   <div>
-    <h1>this is a result page</h1>
-    <p>Congradulations! your score is {{ score }} out of {{ numberOfQ }}.</p>
-    <p v-if="score < 2">Good!</p>
-    <p v-else-if="score === 2">Excellent</p>
-    <p v-else-if="score === 3">Fantastic!</p>
+    <p class="score">Your score is {{ score }} out of {{ numberOfQ }}.</p>
+    <div class="messages">
+      <p v-if="score/numberOfQ <= 0.3">Bra!</p>
+      <p v-else-if="0.4 <= score/numberOfQ <= 0.7">Jättebra!</p>
+      <p v-else-if="score/numberOfQ > 0.8">Fantastiskt!</p>
+    </div>
   </div>
 </template>
 
@@ -15,5 +16,16 @@ export default {
 </script>
 
 <style scoped>
-
+.score {
+  margin: 5px 0;
+  font-size: 18px;
+  color: #202020;
+}
+.messages {
+  margin-bottom: 5px;
+   font-family: "Courier New";
+  color: #da8074;
+  font-weight: bold;
+  font-size: 30px;
+}
 </style>

@@ -2,7 +2,7 @@
   <div class="daypage">
     <div class="box">
       <div class="title">
-        <h1>-Day of the week-</h1>
+        <h1>-Veckodagarna-</h1>
       </div>
       <div v-show="!processing">
         <button class="start-btn" @click="startGame">start</button>
@@ -23,19 +23,18 @@
                 placeholder="Type Here"
                 required
               />
-              <button class="submit-btn">submit</button>
+              <button class="submit-btn">Submit</button>
             </div>
           </form>
         </div>
-        <div>
-          <AnswerModal answer="hello" />
-          <!-- `nej, the answer is "${this.qas[this.qIndex].a}"`) -->
+        <div v-if="wrong">
+          <AnswerModal :answer="qas[qIndex].a" @close="closeModal"/>
         </div>
         <div v-show="qIndex === qas.length">
           <div class="result">
             <Result :score="score" :numberOfQ="qas.length" />
           </div>
-          <button class="restart-btn" @click="restartGame">restart</button>
+          <button class="restart-btn" @click="restartGame">Restart</button>
         </div>
       </div>
     </div>
@@ -53,6 +52,7 @@ export default {
       answer: "",
       qIndex: 0,
       score: 0,
+      wrong: false,
       qas: [
         {
           q: "Monday",
@@ -99,11 +99,11 @@ export default {
     submitAnswer() {
       if (this.qas[this.qIndex].a === this.answer) {
         this.score++;
+        this.qIndex++
       } else {
-        this.show();
+       this.wrong = true;
       }
       this.answer = "";
-      this.qIndex++;
     },
     startGame() {
       this.processing = true;
@@ -111,11 +111,9 @@ export default {
     restartGame() {
       this.qIndex = 0;
     },
-    show() {
-      this.$modal.show("modal-content");
-    },
-    hide() {
-      this.$modal.hide("modal-content");
+    closeModal() {
+      this.qIndex++
+      this.wrong = false
     }
   }
 };
@@ -123,14 +121,14 @@ export default {
 
 <style scoped>
 .title h1 {
-  color: #c2c9c9;
+  color: #819582;
   margin-bottom: 50px;
   font-family: "Courier New";
 }
 .daypage {
   height: 100vh;
   text-align: center;
-  background: #819582;
+  background: #ded2c2;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -151,7 +149,7 @@ export default {
   text-align: center;
 }
 .start-btn {
-  background: #ded2c2;
+  background: #819582;
   border: none;
   width: 100%;
   padding: 7px;
@@ -160,7 +158,7 @@ export default {
   font-size: 18px;
 }
 .submit-btn {
-  background: #ded2c2;
+  background: #819582;
   border: none;
   width: 100%;
   padding: 7px;
@@ -170,19 +168,18 @@ export default {
   color: #202020;
 }
 .restart-btn {
-  background: #ded2c2;
+  background: #819582;
   border: none;
   width: 100%;
   padding: 7px;
   cursor: pointer;
   font-weight: bold;
+  font-size: 18px;
   color: #202020;
 }
 .qtext {
   font-size: 18px;
-  color: #c2c9c9;
+  color: #202020;
 }
-/* Modal */
-.modal-content {
-}
+
 </style>
